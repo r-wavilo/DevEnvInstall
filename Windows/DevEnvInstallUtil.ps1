@@ -60,6 +60,8 @@ function DownloadAndInstallProgram {
 	param (
 		[string]$sourceUrl,
 		[string]$dstInstallDirName,
+		[string]$dstBinDirName,
+		[switch]$defaultBinDir,
 		[switch]$removeZipContentsRootDir
 	)
 
@@ -91,15 +93,27 @@ function DownloadAndInstallProgram {
 	# $extractedPaths = Expand-Archive  -Force -PassThru -Path $dstFilePath -DestinationPath $dstInstallDir
 	ExtractZip -zipFilePath $dstFilePath -destination $dstInstallDir -removeZipContentsRootDir
 	#Write-Host "Extracted $extractedPaths"
+	
+	if ($dstBinDirName) {
+		$dstBinDir = [System.IO.Path]::Combine($dstInstallDir, $dstBinDirName)
+	}
+	elseif ($defaultBinDir) {
+		$dstBinDir = $dstInstallDir
+	}
 
-	$currentUserPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
-	if ($currentUserPath -notlike "*;$dstInstallDir*") {
-			# If the new path is not found, append it
-			$updatedPath = "$currentUserPath;$dstInstallDir"
-			[System.Environment]::SetEnvironmentVariable("Path", $updatedPath, [System.EnvironmentVariableTarget]::User)
-			Write-Host "Path '$dstInstallDir' added to user's PATH environment variable."
-		} else {
-			Write-Host "Path '$dstInstallDir' already exists in user's PATH environment variable."
+	if ($dstBinDir) {
+		Write-Host "dstBinDir: $dstBinDir"
+		
+		$currentUserPath = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
+		if ($currentUserPath -notlike "*;$dstBinDir*") {
+				# If the new path is not found, append it
+				$updatedPath = "$currentUserPath;$dstBinDir"
+				[System.Environment]::SetEnvironmentVariable("Path", $updatedPath, [System.EnvironmentVariableTarget]::User)
+				Write-Host "Path '$dstBinDir' added to user's PATH environment variable."
+			}
+			else {
+				Write-Host "Path '$dstBinDir' already exists in user's PATH environment variable."
+		}
 	}
 
 	Write-Host "Program installed to $dstInstallDir"
