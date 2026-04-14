@@ -155,9 +155,94 @@ Verify the interpreter:
 python3 --version
 ```
 
+## `pytest`
+Name: `pytest`
+
+`pytest` is the standard Python test runner used to discover, organize, and execute test suites. For agent-driven setups, it is usually installed inside the active virtual environment so project tests run against that environment's dependencies.
+
+Install inside an activated virtual environment:
+
+```bash
+python -m pip install pytest
+```
+
+Verify the tool is available:
+
+```bash
+pytest --version
+```
+
+## `rich`
+Name: `rich`
+
+`rich` is a Python library for terminal formatting, including colored text, tables, prompts, panels, and progress output. It is useful when agent-facing scripts or CLIs need clearer, more readable console output than plain `print()` formatting.
+
+Install inside an activated virtual environment:
+
+```bash
+python -m pip install rich
+```
+
+Verify the Python-side setup from inside the venv:
+
+```bash
+python -c "import rich; print(rich.__version__)"
+```
+
+## `ruff`
+Name: `ruff`
+
+`ruff` is a fast Python linter and formatter used during development to catch common code issues and keep style consistent. Agents use it when a Python project wants lightweight quality checks without a heavier multi-tool setup.
+
+Install inside an activated virtual environment:
+
+```bash
+python -m pip install ruff
+```
+
+Verify the tool is available:
+
+```bash
+ruff --version
+```
+
+## `mypy`
+Name: `mypy`
+
+`mypy` is a static type checker for Python that validates code against type hints without running it. It is useful in development when projects want earlier feedback on API shape, optional values, and data model consistency.
+
+Install inside an activated virtual environment:
+
+```bash
+python -m pip install mypy
+```
+
+Verify the tool is available:
+
+```bash
+mypy --version
+```
+
+## `typer`
+Name: `typer`
+
+`typer` is a Python library for building command-line interfaces from normal Python functions and type hints. It is useful when an agent or project wants a structured CLI with automatic help text, typed arguments, and subcommands.
+
+Install inside an activated virtual environment:
+
+```bash
+python -m pip install typer
+```
+
+Verify the Python-side setup from inside the venv:
+
+```bash
+python -c "import typer; print(typer.__version__)"
+```
+
 ## `PIL`
 Name: `PIL` (`python3-pil` / Pillow)
-
+ 
 `PIL` is the Python import namespace commonly used for image work, while the actively maintained library is Pillow. On Debian / WSL, you typically install it with the `python3-pil` package, then import it in Python code as `from PIL import Image`.
 
 
@@ -214,6 +299,23 @@ Verify the Python-side setup from inside the venv:
 
 ```bash
 python -c "import cv2; print(cv2.__version__)"
+```
+
+## `p4python`
+Name: `p4python` (`P4Python` / `P4`)
+
+`p4python` is the official Perforce Python API package. Install it inside the active virtual environment when Python code needs to talk to a Perforce server; the package name on PyPI is `p4python`, while the import namespace is `P4`.
+
+Install inside an activated virtual environment:
+
+```bash
+python -m pip install p4python
+```
+
+Verify the Python-side setup from inside the venv:
+
+```bash
+python -c "import P4; print(P4.P4.identify().splitlines()[0])"
 ```
 
 ## `python3-venv`
