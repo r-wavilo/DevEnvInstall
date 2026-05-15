@@ -8,55 +8,51 @@ sudo apt update
 
 ## System Packages
 
+Install the non-Python system utilities with one apt transaction:
+
+```bash
+sudo apt install -y \
+  bubblewrap \
+  curl \
+  dos2unix \
+  fd-find \
+  file \
+  imagemagick \
+  jq \
+  ripgrep \
+  rsync \
+  tesseract-ocr \
+  tmux \
+  unzip \
+  vim \
+  xxd
+```
+
 ### `bubblewrap`
 
 Lightweight command sandboxing through `bwrap`.
-
-```bash
-sudo apt install -y bubblewrap
-```
 
 ### `fd-find`
 
 Fast recursive file search. The Debian executable is `fdfind`.
 
-```bash
-sudo apt install -y fd-find
-```
-
 ### `file`
 
 File type detection through content and magic-number inspection.
-
-```bash
-sudo apt install -y file
-```
 
 ### `jq`
 
 JSON inspection and transformation for shell pipelines.
 
-```bash
-sudo apt install -y jq
-```
-
 ### `imagemagick`
 
 Command-line image conversion, resizing, cropping, and metadata inspection.
 
-```bash
-sudo apt install -y imagemagick
-```
-
 Use `magick` as the main command in new scripts.
 
-### `npm`
+### `curl`
 
-Node.js package manager for JavaScript and TypeScript tooling.
-
-```bash
-sudo apt install -y npm
-```
+HTTP download utility used by installers such as nvm.
 
 ### `python3` and `python3-venv`
 
@@ -78,48 +74,60 @@ python -m pip install --upgrade pip
 
 System OCR engine required by the Python `pytesseract` wrapper.
 
-```bash
-sudo apt install -y tesseract-ocr
-```
+### `tmux`
+
+Terminal multiplexer for persistent shell sessions.
 
 ### `ripgrep`
 
 Fast recursive text search through the `rg` command.
 
-```bash
-sudo apt install -y ripgrep
-```
+### `rsync`
+
+Efficient file and directory synchronization for release upgrades and preserving runtime data.
 
 ### `dos2unix`
 
 Line-ending conversion between Windows and Unix text files.
 
-```bash
-sudo apt install -y dos2unix
-```
-
 ### `unzip`
 
 Extraction for `.zip` archives.
-
-```bash
-sudo apt install -y unzip
-```
 
 ### `vim`
 
 Terminal editor for direct file inspection and fallback editing.
 
-```bash
-sudo apt install -y vim
-```
-
 ### `xxd`
 
 Hex dumps and byte-level file inspection.
 
+## Node.js and npm
+
+Use nvm for user-scoped Node.js and npm. Do not install Debian's `npm` package for agent tooling, and do not use `sudo npm install -g`.
+
+Install nvm and the default Node.js line:
+
 ```bash
-sudo apt install -y xxd
+export NVM_DIR="$HOME/.nvm"
+if [ ! -s "$NVM_DIR/nvm.sh" ]; then
+  curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+fi
+. "$NVM_DIR/nvm.sh"
+nvm install 24
+nvm alias default 24
+nvm use 24
+node --version
+npm --version
+npx --version
+```
+
+For non-interactive scripts, load nvm before calling `node`, `npm`, or `npx`:
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+. "$NVM_DIR/nvm.sh"
+nvm use --silent default
 ```
 
 ## Python Packages
